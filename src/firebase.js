@@ -10,4 +10,24 @@ const config = {
 };
 
 firebase.initializeApp(config);
-export default firebase;
+const messaging = firebase.messaging();
+
+export const requestFirebaseNotificationPermission = () =>
+  new Promise((resolve, reject) => {
+    Notification
+      .requestPermission()
+      .then(() => messaging.getToken())
+      .then((firebaseToken) => {
+        resolve(firebaseToken);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+
+export const onMessageListener = () =>
+  new Promise((resolve) => {
+    messaging.onMessage((payload) => {
+      resolve(payload);
+    });
+  })

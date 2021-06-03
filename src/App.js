@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Notification from "react-web-notification";
+import { requestFirebaseNotificationPermission } from "./firebase";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -21,15 +21,23 @@ class App extends Component {
     // });
   }
   render() {
+    requestFirebaseNotificationPermission()
+      .then((firebaseToken) => {
+        // eslint-disable-next-line no-console
+        console.log(firebaseToken);
+      })
+      .catch((err) => {
+        return err;
+      });
     return (
       <div>
-        <Notification
+        {/* <Notification
           title="Hi..."
           options={{
             body: "There is a new message from adva missions !! stay tuned !!",
           }}
           swRegistration={this.props.swRegistration}
-        />
+        /> */}
         <h1>Adva Missions...!</h1>
         <p>Welcome You all !!</p>
       </div>
